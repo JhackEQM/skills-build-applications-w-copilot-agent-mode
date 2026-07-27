@@ -1,37 +1,55 @@
-import './App.css'
+import { NavLink, Route, Routes } from 'react-router-dom';
+import './App.css';
+import Activities from './components/Activities.jsx';
+import Leaderboard from './components/Leaderboard.jsx';
+import Teams from './components/Teams.jsx';
+import Users from './components/Users.jsx';
+import Workouts from './components/Workouts.jsx';
 
 function App() {
+  const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+
   return (
-    <main className="container py-5">
-      <section className="row align-items-center g-4">
-        <div className="col-lg-7">
-          <p className="text-uppercase fw-semibold text-primary">OctoFit Tracker</p>
-          <h1 className="display-4 fw-bold mb-3">Modern fitness tracking for teams and solo athletes</h1>
-          <p className="lead text-muted mb-4">
-            Log workouts, manage teams, and stay motivated with a streamlined dashboard designed for multi-tier growth.
-          </p>
-          <div className="d-flex gap-3">
-            <a className="btn btn-primary btn-lg" href="https://vite.dev/" target="_blank" rel="noreferrer">
-              View app stack
-            </a>
-            <a className="btn btn-outline-secondary btn-lg" href="/api/health" target="_blank" rel="noreferrer">
-              Check API health
-            </a>
+    <main className="container py-4 py-lg-5">
+      <section className="row g-4 align-items-start">
+        <div className="col-lg-4">
+          <div className="card shadow-sm border-0 p-4 sticky-top">
+            <p className="text-uppercase fw-semibold text-primary mb-2">OctoFit Tracker</p>
+            <h1 className="display-6 fw-bold mb-3">Fitness data for modern teams</h1>
+            <p className="text-muted mb-4">
+              Explore users, teams, activities, leaderboard entries, and workouts from the backend API.
+            </p>
+            <nav className="d-flex flex-column gap-2">
+              <NavLink className="btn btn-outline-primary text-start" to="/users">Users</NavLink>
+              <NavLink className="btn btn-outline-primary text-start" to="/teams">Teams</NavLink>
+              <NavLink className="btn btn-outline-primary text-start" to="/activities">Activities</NavLink>
+              <NavLink className="btn btn-outline-primary text-start" to="/leaderboard">Leaderboard</NavLink>
+              <NavLink className="btn btn-outline-primary text-start" to="/workouts">Workouts</NavLink>
+            </nav>
+            <div className="alert alert-info mt-4 mb-0 small">
+              Define <code>VITE_CODESPACE_NAME</code> in <code>.env.local</code> for Codespaces URLs. When it is unset, the app falls back to localhost.
+            </div>
+            {codespaceName ? (
+              <p className="small text-muted mt-3 mb-0">Codespaces base URL: https://{codespaceName}-8000.app.github.dev/api/</p>
+            ) : (
+              <p className="small text-muted mt-3 mb-0">Local base URL: http://localhost:8000/api/</p>
+            )}
           </div>
         </div>
-        <div className="col-lg-5">
-          <div className="card shadow-sm border-0 p-4">
-            <h2 className="h4 fw-bold mb-3">What’s included</h2>
-            <ul className="list-group list-group-flush">
-              <li className="list-group-item px-0">React 19 + Vite frontend</li>
-              <li className="list-group-item px-0">Express + TypeScript API</li>
-              <li className="list-group-item px-0">MongoDB connectivity via Mongoose</li>
-            </ul>
-          </div>
+
+        <div className="col-lg-8">
+          <Routes>
+            <Route path="/" element={<Users />} />
+            <Route path="/users" element={<Users />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/activities" element={<Activities />} />
+            <Route path="/leaderboard" element={<Leaderboard />} />
+            <Route path="/workouts" element={<Workouts />} />
+          </Routes>
         </div>
       </section>
     </main>
-  )
+  );
 }
 
-export default App
+export default App;
