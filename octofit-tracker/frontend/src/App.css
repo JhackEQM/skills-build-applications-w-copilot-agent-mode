@@ -1,0 +1,11 @@
+body {
+  background: linear-gradient(135deg, #f8fafc 0%, #eef2ff 100%);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.card {
+  border-radius: 1.25rem;
+}
