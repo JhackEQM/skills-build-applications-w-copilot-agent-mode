@@ -8,7 +8,7 @@ const mongoUri = process.env.MONGODB_URI || 'mongodb://localhost:27017/octofit_d
 const codespaceName = process.env.CODESPACE_NAME;
 const baseUrl = codespaceName
   ? `https://${codespaceName}-8000.app.github.dev`
-  : 'http://localhost:8000';
+  : `http://localhost:${port}`;
 
 app.use(express.json());
 
