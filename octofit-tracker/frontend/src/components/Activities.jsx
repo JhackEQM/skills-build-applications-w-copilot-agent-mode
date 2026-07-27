@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { fetchCollection } from '../utils/apiClient.js';
 
 function Activities() {
   const [activities, setActivities] = useState([]);
@@ -11,7 +10,27 @@ function Activities() {
 
     async function loadActivities() {
       try {
-        const data = await fetchCollection('activities');
+        const codespaceName = import.meta.env.VITE_CODESPACE_NAME?.trim();
+        const baseUrl = codespaceName
+          ? `https://${codespaceName}-8000.app.github.dev/api/activities/`
+          : 'http://localhost:8000/api/activities/';
+
+        const response = await fetch(baseUrl);
+        if (!response.ok) {
+          throw new Error('Unable to load activities');
+        }
+
+        const payload = await response.json();
+        const data = Array.isArray(payload)
+          ? payload
+          : Array.isArray(payload?.data)
+            ? payload.data
+            : Array.isArray(payload?.items)
+              ? payload.items
+              : Array.isArray(payload?.results)
+                ? payload.results
+                : [];
+
         if (isMounted) {
           setActivities(data);
         }
